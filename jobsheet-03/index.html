@@ -9,8 +9,8 @@
 <body>
     <header>
         <h1>SIMPUS-Mini</h1>
+        <!-- Input checkbox tetap di atas agar combinator  -->
         <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
         <nav>
             <ul>
                 <li><a href="index.html">Beranda</a></li>
@@ -19,6 +19,8 @@
                 <li><a href="anggota/list.html">Daftar Anggota</a></li>
             </ul>
         </nav>
+        <!-- Ikon hamburger dipindahkan setelah <nav> -->
+        <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
     </header>
 
     <main>
@@ -42,6 +44,10 @@
                 <p>3</p>
             </article>
         </section>
+        <section>
+    <h2>Uji Coba Kode Panjang</h2>
+    <pre><code>SELECT id_anggota, nama_lengkap, alamat_rumah, nomor_telepon_seluler, tanggal_bergabung_anggota FROM tabel_anggota_perpustakaan WHERE status_keanggotaan = 'aktif' AND tanggal_bergabung_anggota >= '2026-01-01';</code></pre>
+</section>
     </main>
 
     <footer>
