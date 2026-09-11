@@ -9,6 +9,23 @@ function initNavToggle() {
     });
 }
 
+function updateTableCounter() {
+    const counterEl = document.getElementById("table-counter");
+    const table = document.querySelector(".table-responsive table");
+    if (!counterEl || !table) return;
+
+    const totalRows = table.querySelectorAll("tbody tr");
+    let visibleRowsCount = 0;
+
+    totalRows.forEach(function (row) {
+        if (row.style.display !== "none") {
+            visibleRowsCount++;
+        }
+    });
+
+    counterEl.textContent = "Menampilkan " + visibleRowsCount + " dari " + totalRows.length + " data";
+}
+
 // ===== Konfirmasi hapus (front-end only, belum ke server) =====
 function initHapusConfirm() {
     document.querySelectorAll(".btn-hapus").forEach(function (btn) {
@@ -18,6 +35,7 @@ function initHapusConfirm() {
             const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
             if (yakin && row) {
                 row.remove();
+                updateTableCounter(); // Perbarui counter 
             }
         });
     });
@@ -33,9 +51,12 @@ function initTableFilter() {
         const keyword = input.value.toLowerCase();
         const rows = table.querySelectorAll("tbody tr");
         rows.forEach(function (row) {
-            const teks = row.textContent.toLowerCase();
+            //row.textContent menjadi row.querySelector("td").//
+            const kolomPertama = row.querySelector("td");
+            const teks = kolomPertama ? kolomPertama.textContent.toLowerCase() : "";
             row.style.display = teks.includes(keyword) ? "" : "none";
         });
+        updateTableCounter(); // Perbarui counter setelah difilter
     });
 }
 
@@ -55,60 +76,72 @@ function hapusError(input) {
     }
 }
 
+// ===== Refactor Validasi Form =====
 function initValidasiForm() {
     const form = document.getElementById("form-tambah");
     if (!form) return;
-
     form.addEventListener("submit", function (e) {
         let valid = true;
-
-        const judul = form.querySelector("[name='judul'], [name='nama']");
-        if (judul && judul.value.trim() === "") {
-            tampilkanError(judul, "Field ini wajib diisi.");
-            valid = false;
-        } else if (judul) {
-            hapusError(judul);
-        }
-
-        const pengarang = form.querySelector("[name='pengarang']");
-        if (pengarang && pengarang.value.trim() === "") {
-            tampilkanError(pengarang, "Pengarang wajib diisi.");
-            valid = false;
-        } else if (pengarang) {
-            hapusError(pengarang);
-        }
-
-        const tahun = form.querySelector("[name='tahun']");
-        if (tahun) {
-            const nilai = parseInt(tahun.value, 10);
-            if (isNaN(nilai) || nilai < 1900 || nilai > 2026) {
-                tampilkanError(tahun, "Tahun harus di antara 1900-2026.");
-                valid = false;
-            } else {
-                hapusError(tahun);
+        // Array konfigurasi aturan validasi
+        const rules = [
+            {
+                selector: "[name='judul'], [name='nama']",
+                test: (val) => val.trim() !== "",
+                message: "Field ini wajib diisi."
+            },
+            {
+                selector: "[name='pengarang']",
+                test: (val) => val.trim() !== "",
+                message: "Pengarang wajib diisi."
+            },
+            {
+                selector: "[name='tahun']",
+                test: (val) => {
+                    const nilai = parseInt(val, 10);
+                    return !isNaN(nilai) && nilai >= 1900 && nilai <= 2026;
+                },
+                message: "Tahun harus di antara 1900-2026."
+            },
+            {
+                selector: "[name='isbn']",
+                test: (val) => {
+                    if (val.trim() === "") return true; // ISBN opsional jika kosong
+                    return /^[0-9-]+$/.test(val.trim());
+                },
+                message: "ISBN hanya boleh berisi angka dan tanda hubung (-)."
+            },
+            {
+                selector: "[name='stok']",
+                test: (val) => {
+                    const nilai = parseInt(val, 10);
+                    return !isNaN(nilai) && nilai >= 0;
+                },
+                message: "Stok tidak boleh negatif."
             }
-        }
+        ];
 
-        const stok = form.querySelector("[name='stok']");
-        if (stok) {
-            const nilai = parseInt(stok.value, 10);
-            if (isNaN(nilai) || nilai < 0) {
-                tampilkanError(stok, "Stok tidak boleh negatif.");
-                valid = false;
-            } else {
-                hapusError(stok);
+        // Eksekusi perulangan validasi untuk setiap elemen
+        rules.forEach(function (rule) {
+            const input = form.querySelector(rule.selector);
+            if (input) {
+                if (!rule.test(input.value)) {
+                    tampilkanError(input, rule.message);
+                    valid = false;
+                } else {
+                    hapusError(input);
+                }
             }
-        }
+        });
 
         if (!valid) {
             e.preventDefault();
         }
     });
 }
-
 document.addEventListener("DOMContentLoaded", function () {
     initNavToggle();
     initHapusConfirm();
     initTableFilter();
     initValidasiForm();
+    updateTableCounter(); // Jalankan counter saat halaman pertama kali dimuat
 });
