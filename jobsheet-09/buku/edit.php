@@ -27,12 +27,11 @@ if (!$buku) {
             <?php if ($flash): ?>
                 <p class="flash flash-<?php echo $flash['type']; ?>"><?php echo $flash['pesan']; ?></p>
             <?php endif; ?>
-
-            <form id="form-tambah" method="post" action="proses_edit.php">
-                <input type="hidden" name="id" value="<?php echo $buku['id']; ?>">
+            <form method="post" action="proses_edit.php" onsubmit="return confirm('Apakah Anda yakin ingin menyimpan perubahan data buku ini?');">
+                <input type="hidden" name="id" value="<?php echo (int) $buku['id']; ?>">
                 <p>
-                    <label for="judul">Judul</label><br>
-                    <input type="text" id="judul" name="judul" value="<?php echo $buku['judul']; ?>" required>
+                    <label for="judul">Judul Buku</label>
+                    <input type="text" id="judul" name="judul" value="<?php echo htmlspecialchars($buku['judul'], ENT_QUOTES, 'UTF-8'); ?>" required>
                 </p>
                 <p>
                     <label for="pengarang">Pengarang</label><br>
@@ -59,7 +58,8 @@ if (!$buku) {
                     </select>
                 </p>
                 <p>
-                    <button type="submit">Update</button>
+                    <button type="submit" class="btn-simpan">Simpan Perubahan</button>
+                    <a href="list.php" class="btn-batal">Batal</a>
                 </p>
             </form>
         </section>
