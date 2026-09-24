@@ -1,0 +1,56 @@
+{
+    // ===== THEME =====
+    "workbench.colorTheme": "Dracula Theme",
+    "workbench.iconTheme": "vscode-icons",
+
+    // ===== ICONS =====
+    "vsicons.presets.foldersAllDefaultIcon": true,
+    "vsicons.associations.fileDefault.file": null,
+
+    // ===== EDITOR =====
+    "editor.fontSize": 15,
+    "editor.lineHeight": 24,
+    "editor.fontFamily": "Cascadia Code, Consolas, monospace",
+    "editor.fontLigatures": true,
+
+    // ===== CODE =====
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+    "editor.wordWrap": "on",
+    "editor.minimap.enabled": false,
+
+    // ===== CURSOR =====
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.smoothScrolling": true,
+
+    // ===== AUTO SAVE =====
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+
+    // ===== FORMAT =====
+    "editor.formatOnSave": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": true,
+
+    // ===== TERMINAL =====
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.cursorBlinking": true,
+
+    // ===== EXPLORER =====
+    "explorer.compactFolders": false,
+
+    // ===== SEARCH =====
+    "search.smartCase": true,
+
+    // ===== JAVA =====
+    "java.debug.settings.onBuildFailureProceed": true,
+
+    // ===== FILES =====
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+
+    // ===== BREADCRUMBS =====
+    "breadcrumbs.enabled": true
+}

@@ -34,7 +34,7 @@ function initHapusConfirm() {
             const nama = row ? row.querySelector("td")?.textContent : "data ini";
             const yakin = confirm("Yakin ingin menghapus \"" + nama + "\"?");
             if (yakin && row) {
-                row.remove();
+                row.remove();       
                 updateTableCounter(); // Perbarui counter 
             }
         });
